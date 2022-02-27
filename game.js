@@ -19,7 +19,37 @@ $("div .btn").click(function(event) { //used .btn to specify to click on 1 butto
     userClickedPattern.push(userChosenColour);
     playSound(userChosenColour);
     animatePress(userChosenColour);
+    checkAnswer(userClickedPattern.length);
 });
+
+function checkAnswer(currenLevel) {
+    if (gamePattern[currenLevel - 1] === userClickedPattern[currenLevel - 1]) {
+        console.log("success");
+        if (currenLevel === gamePattern.length) {
+            setTimeout(function() {
+                nextSequence();
+            }, 1000);
+            userClickedPattern = [];
+        }
+    } else {
+        console.log("Not HEHE");
+        playSound("wrong");
+        $("body").addClass("game-over");
+        setTimeout(function() {
+            $("body").removeClass("game-over");
+        }, 200);
+        $("h1").text("Game Over, Press Any Key to Restart");
+        startOver();
+    }
+
+}
+
+function startOver() {
+    level = 0;
+    gamePattern = [];
+    userClickedPattern = [];
+    gameStarted = 0;
+}
 
 function nextSequence() {
     level++;
