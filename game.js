@@ -11,7 +11,6 @@ $("body").keypress(function() {
         nextSequence();
         gameStarted = 1;
     }
-
 })
 
 $("div .btn").click(function(event) { //used .btn to specify to click on 1 button not on every button
@@ -19,7 +18,41 @@ $("div .btn").click(function(event) { //used .btn to specify to click on 1 butto
     userClickedPattern.push(userChosenColour);
     playSound(userChosenColour);
     animatePress(userChosenColour);
+
+    //check here
+    if (checkAnswer()) {
+        console.log("correct");
+        if (userClickedPattern.length == gamePattern.length) {
+            userClickedPattern = [];
+            nextSequence();
+        }
+    } else {
+        console.log("WRONG");
+        $("h1").text("Game Over, Press Any Key to Restart");
+        gamePattern = [];
+        userClickedPattern = [];
+        level = 0;
+        //add function inn replace of this
+        $("body").keypress(function() {
+                $("#level-title").text("Level " + level);
+                nextSequence();
+            })
+            //reboot
+    }
 });
+
+function checkAnswer() {
+    console.log("Game : ");
+    console.log(gamePattern);
+    console.log(" --   ");
+    console.log("user : ");
+    console.log(userClickedPattern);
+    console.log("__  ");
+    if (userClickedPattern[userClickedPattern.length - 1] == gamePattern[userClickedPattern.length - 1]) {
+        return true;
+    }
+    return false;
+}
 
 function nextSequence() {
     level++;
